@@ -1,0 +1,26 @@
+mat-spinner {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.no-tests {
+  font-size: large;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+:host ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #00b894 !important;
+}
+hr {
+  border-top: 3px solid #00b894;
+  margin: 1em 0;
+}
+mat-card {
+  margin: 0 auto;
+  width: 70%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

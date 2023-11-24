@@ -1,0 +1,27 @@
+.mat-toolbar {
+  background: #00b894;
+  color: white;
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+mat-icon {
+  margin-right: 10px;
+}
+.mat-stroked-button {
+  margin: 10px;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+@media screen and (max-width: 550px) {
+  .hidden {
+    display: none;
+  }
+  mat-icon{
+    margin-right: 0px;
+  }
+}

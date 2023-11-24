@@ -1,0 +1,61 @@
+<mat-toolbar>
+  <a routerLink="/" mat-stroked-button>
+    <mat-icon>home</mat-icon>
+    <span class="hidden">Home</span>
+  </a>
+  <span class="spacer"></span>
+  <a *ngIf="!authService.isLoggedIn()" routerLink="/login" mat-stroked-button>
+    <mat-icon>login</mat-icon>
+    <span class="hidden">Login</span>
+  </a>
+  <a *ngIf="!authService.isLoggedIn()" routerLink="/signup" mat-stroked-button>
+    <mat-icon>person_add</mat-icon>
+    <span class="hidden">Signup</span>
+  </a>
+  <countdown
+    *ngIf="
+      authService.isLoggedIn() &&
+      !authService.currentUser()?.isAdmin &&
+      testService.hasTestStarted
+    "
+    [config]="{ leftTime: testService.testTime * 60 }"
+    (event)="onTimerFinished($event)"
+  ></countdown>
+  <a
+    *ngIf="(authService.currentUser()?.isAdmin || authService.currentUser()?.isSuperAdmin) && authService.isLoggedIn()"
+    routerLink="/add-test"
+    mat-stroked-button
+  >
+    <mat-icon>add_circle</mat-icon>
+    <span class="hidden">Add Test</span>
+  </a>
+  <a
+    *ngIf="(authService.currentUser()?.isAdmin || authService.currentUser()?.isSuperAdmin) && authService.isLoggedIn()"
+    routerLink="/reset-login"
+    mat-stroked-button
+  >
+    <mat-icon>autorenew</mat-icon>
+    <span class="hidden">Reset Login</span>
+  </a>
+  <a
+    *ngIf="
+      !authService.currentUser()?.isAdmin &&
+      !authService.currentUser()?.isSuperAdmin &&
+      authService.isLoggedIn() &&
+      !testService.hasTestStarted
+    "
+    mat-stroked-button
+    routerLink="/my-tests"
+  >
+    <mat-icon>bolt</mat-icon>
+    <span class="hidden">My tests</span>
+  </a>
+  <button
+    *ngIf="authService.isLoggedIn() && !testService.hasTestStarted"
+    mat-stroked-button
+    (click)="authService.logout()"
+  >
+    <mat-icon>logout</mat-icon>
+    <span class="hidden">Logout</span>
+  </button>
+</mat-toolbar>

@@ -1,0 +1,40 @@
+<form #loginForm="ngForm" class="login" (ngSubmit)="onLogin(loginForm)">
+  <mat-form-field appearance="fill">
+    <mat-label>Email ID</mat-label>
+    <input
+      matInput
+      type="email"
+      ngModel
+      #email="ngModel"
+      name="email"
+      required
+      pattern="[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,10}"
+    />
+    <mat-error *ngIf="email.errors?.['required']">Required</mat-error>
+    <mat-error *ngIf="email.errors?.['pattern']">Invalid email</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      type="password"
+      ngModel
+      #password="ngModel"
+      name="password"
+      required
+      minlength="6"
+      maxlength="15"
+    />
+    <mat-error *ngIf="password.errors?.['required']">Required</mat-error>
+    <mat-error *ngIf="password.errors?.['minlength']"
+      >Password cannot be shorter than 6 characters</mat-error
+    >
+    <mat-error *ngIf="password.errors?.['maxlength']"
+      >Password cannot be greater than 15 characters</mat-error
+    >
+  </mat-form-field>
+  <br>
+  <button mat-button [disabled]="loginForm.invalid">Login</button>
+  <mat-spinner *ngIf="showSpinner" [diameter]="30"></mat-spinner>
+</form>

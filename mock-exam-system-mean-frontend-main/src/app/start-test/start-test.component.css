@@ -1,0 +1,40 @@
+mat-card {
+  margin: 0 auto;
+  width: 70%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 80px;
+}
+div{
+  white-space: pre-line;
+}
+::ng-deep .mat-card-header-text {
+  margin: 0px !important; 
+}
+hr {
+  border-top: 3px solid #00b894;
+  margin: 1em 0;
+}
+.container{
+  text-align: center;
+}
+.mat-stroked-button {
+  background-color: #00b894;
+  color: white;
+  margin-bottom: 20px;  
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: #00b894 !important;
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #00b894 !important; 
+}
+::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+ border-color:#00b894 !important; 
+}
+
+.QuestionImage{
+  width: 600px;
+  height: 350px;
+  object-fit: contain;
+}

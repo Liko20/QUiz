@@ -1,0 +1,85 @@
+.test {
+  margin-top: 30px;
+  text-align: center;
+}
+mat-stepper {
+  background-color: transparent;
+}
+mat-form-field {
+  width: 40%;
+}
+.remove {
+  float: right;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+.attach{
+  transform: scale(.7);
+}
+/* comment below style while testing; uncomment in production */
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: black;
+}
+mat-label {
+  color: black;
+}
+::ng-deep .mat-step-header .mat-step-icon {
+  background-color: #00b894;
+}
+.test_questions {
+  margin-top: 30px;
+  text-align: center;
+}
+.option_1_3_field {
+  margin-right: 5px;
+}
+.add {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.back {
+  margin-right: 5px;
+}
+.stepper_button {
+  text-align: center;
+  margin-bottom: 20px;
+}
+p {
+  font-size: 20px;
+  text-align: center;
+}
+mat-spinner {
+  margin: 0 auto;
+}
+:host ::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #00b894 !important;
+}
+@media screen and (max-width: 550px) {
+  mat-form-field {
+    width: 80%;
+  }
+  .option_1_3_field {
+    margin-right: 0px;
+  }
+}
+
+.checkbox-margin {
+  margin: 0 12px;
+}
+
+.checkbox-container {
+  margin-bottom: 20px;
+}
+
+:host ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #00b894 ;
+}
+
+:host ::ng-deep  .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #00b894 ;
+}

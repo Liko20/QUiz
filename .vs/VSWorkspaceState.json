@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\mock-exam-system-mean-backend-main",
+    "\\mock-exam-system-mean-backend-main\\controllers",
+    "\\mock-exam-system-mean-frontend-main",
+    "\\mock-exam-system-mean-frontend-main\\src",
+    "\\mock-exam-system-mean-frontend-main\\src\\app",
+    "\\mock-exam-system-mean-frontend-main\\src\\app\\add-test",
+    "\\mock-exam-system-mean-frontend-main\\src\\app\\services"
+  ],
+  "SelectedNode": "\\mock-exam-system-mean-backend-main\\controllers\\attempt-controller.js",
+  "PreviewInSolutionExplorer": false
+}

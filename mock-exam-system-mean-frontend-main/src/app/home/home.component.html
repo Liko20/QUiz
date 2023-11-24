@@ -1,0 +1,55 @@
+<mat-spinner *ngIf="showSpinner" [diameter]="30"></mat-spinner>
+<div *ngIf="!showSpinner && !loadedTests.length" class="no-tests">
+  No tests!
+</div>
+<mat-card *ngFor="let test of loadedTests; let id = index">
+  <mat-card-title>{{ test["test_name"] }}</mat-card-title>
+  <hr />
+  <mat-card-subtitle>
+    Number of questions: {{ test["number_of_questions"] }}
+    <br />
+    Total marks: {{ test["total_marks"] }}
+    <br />
+    Test duration: {{ test["test_duration"] }} minutes
+  </mat-card-subtitle>
+  <mat-card-actions align="end">
+    <mat-spinner
+      *ngIf="test._id === testToDelete && showDeleteSpinner"
+      [diameter]="30"
+    ></mat-spinner>
+    <button
+      *ngIf="authService.isLoggedIn() && (authService.currentUser()?.isAdmin || authService.currentUser()?.isSuperAdmin)"
+      mat-stroked-button
+      (click)="onTestResultsDownload(test._id)"
+      color="primary"
+    >
+      <mat-icon>download</mat-icon>
+      Download
+    </button>
+    <button
+      *ngIf="authService.isLoggedIn() && (authService.currentUser()?.isAdmin || authService.currentUser()?.isSuperAdmin)"
+      mat-stroked-button
+      (click)="onTestDelete(test._id)"
+      color="warn"
+    >
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+    <button
+      *ngIf="authService.isLoggedIn() && !authService.currentUser()?.isAdmin && !authService.currentUser()?.isSuperAdmin"
+      mat-stroked-button
+      (click)="onTestEnter(test)"
+    >
+      <mat-icon>arrow_circle_right</mat-icon>
+      Enter
+    </button>
+    <button
+      *ngIf="!authService.isLoggedIn()"
+      mat-stroked-button
+      (click)="router.navigate(['/login'])"
+    >
+      <mat-icon>lock</mat-icon>
+      Login to take test
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,25 @@
+<mat-spinner *ngIf="showSpinner" [diameter]="30"></mat-spinner>
+<div *ngIf="!showSpinner && !loadedTests.length" class="no-tests">No tests taken yet!</div>
+<mat-card *ngFor="let test of loadedTests; let id = index">
+  <mat-card-title>{{
+    test["attempted_test_info"]["test_name"]
+  }}</mat-card-title>
+  <hr />
+  <mat-card-subtitle>
+    Score: {{ test["attempted_test_info"]["score"] }} /
+    {{ test["attempted_test_info"]["total_marks"] }}
+    <br />
+    Total questions:
+    {{
+      test["attempted_test_info"]["correct_answers"] +
+        test["attempted_test_info"]["incorrect_answers"]
+    }}
+    <br />
+    Marks per question: {{ test["attempted_test_info"]["marks_per_question"] }}
+    <br />
+    Correct answers: {{ test["attempted_test_info"]["correct_answers"] }}
+    <br />
+    Incorrect answers: {{ test["attempted_test_info"]["incorrect_answers"] }}
+    <br />
+  </mat-card-subtitle>
+</mat-card>

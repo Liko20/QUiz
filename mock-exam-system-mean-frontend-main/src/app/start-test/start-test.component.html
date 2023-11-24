@@ -1,0 +1,99 @@
+<form #testForm="ngForm" (ngSubmit)="onTestSubmit()">
+  <mat-card *ngFor="let q of currentTest['questions']; let i = index">
+    
+
+      <mat-card-header *ngIf="!q.titledatatype"
+      ><b>{{ i + 1 }}) &nbsp; {{ q.title }}</b></mat-card-header
+    >
+    <mat-card-header *ngIf="q.titledatatype"
+      ><b>{{ i + 1 }}) <pre>        </pre></b> &nbsp;<img [src]="q.title" alt="" class="QuestionImage"></mat-card-header
+    >
+    <hr />
+    <mat-radio-group [disabled]="testService.hasTestEnded">
+
+<br>
+<!-- option 1 -->
+      <mat-card-content *ngIf="!q.adatatype">
+      <mat-radio-button ngDefaultControl value="1" name="{{ i + 1 }}" ngModel>
+        <div>{{ q.a }}</div>
+      </mat-radio-button>
+    </mat-card-content>
+
+    <mat-card-content *ngIf="q.adatatype">
+      <mat-radio-button ngDefaultControl value="1" name="{{ i + 1 }}" ngModel>
+        <div>
+          <img [src]="q.a" alt=""  class="QuestionImage">
+        </div>
+      </mat-radio-button>
+    </mat-card-content>
+
+    <br>
+<!-- option 2 -->
+      <mat-card-content *ngIf="!q.bdatatype">
+        <mat-radio-button ngDefaultControl value="2" name="{{ i + 1 }}" ngModel>
+          <div>{{ q.b }}</div>
+        </mat-radio-button>
+      </mat-card-content>
+
+      <mat-card-content *ngIf="q.bdatatype">
+        <mat-radio-button ngDefaultControl value="2" name="{{ i + 1 }}" ngModel>
+          <div>
+            <img [src]="q.b" alt="" class="QuestionImage">
+          </div>
+        </mat-radio-button>
+      </mat-card-content>
+
+
+      
+<!-- option 3 -->
+<br>
+      <mat-card-content *ngIf="!q.cdatatype">
+        <mat-radio-button ngDefaultControl value="3" name="{{ i + 1 }}" ngModel>
+          <div>{{ q.c }}</div>
+        </mat-radio-button>
+      </mat-card-content>
+
+      <mat-card-content *ngIf="q.cdatatype">
+        <mat-radio-button ngDefaultControl value="3" name="{{ i + 1 }}" ngModel>
+          <div>
+            <img [src]="q.c" alt="" class="QuestionImage">
+          </div>
+        </mat-radio-button>
+      </mat-card-content>
+
+<!-- option 4 -->
+<br>
+      <mat-card-content *ngIf="!q.ddatatype">
+        <mat-radio-button ngDefaultControl value="4" name="{{ i + 1 }}" ngModel>
+          <div>{{ q.d }}</div>
+        </mat-radio-button>
+      </mat-card-content>
+
+      <mat-card-content *ngIf="q.ddatatype">
+        <mat-radio-button ngDefaultControl value="4" name="{{ i + 1 }}" ngModel>
+          <div>
+            <img [src]="q.d" alt="" class="QuestionImage">
+          </div>
+        </mat-radio-button>
+      </mat-card-content>
+
+      <mat-card-content *ngIf="testService.hasTestEnded">
+        <b
+          [ngStyle]="{
+            color:
+              +testService.userAttemptedTest?.value[i + 1] ===
+              currentTest.questions[i].correct
+                ? 'green'
+                : 'red'
+          }"
+          >Correct Option: {{ q.correct }}</b
+        >
+      </mat-card-content>
+    </mat-radio-group>
+  </mat-card>
+  <div class="container">
+    <button [disabled]="testService.hasTestEnded" mat-stroked-button>
+      Submit test
+    </button>
+  </div>
+</form>

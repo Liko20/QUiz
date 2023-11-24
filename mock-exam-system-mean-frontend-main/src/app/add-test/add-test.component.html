@@ -1,0 +1,224 @@
+<!-- Make linear = false while testing; true in production -->
+<mat-stepper [linear]="true" [animationDuration]="'600'">
+  <mat-step [stepControl]="test_details.control" label="Test details">
+    <form #test_details="ngForm" class="test">
+      <mat-form-field appearance="fill">
+        <mat-label>Test name</mat-label>
+        <input matInput type="text" ngModel #test_name="ngModel" name="test_name" required />
+        <mat-error *ngIf="test_name.errors?.['required']">Required</mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill">
+        <mat-label>Total marks</mat-label>
+        <input matInput type="number" ngModel #total_marks="ngModel" name="total_marks" min="10" max="500" pattern="\d*"
+          required />
+        <mat-error *ngIf="total_marks.errors?.['required']">Required</mat-error>
+        <mat-error *ngIf="total_marks.errors?.['min']">Test cannot be less than 10 marks</mat-error>
+        <mat-error *ngIf="total_marks.errors?.['max']">Test cannot be more than 500 marks</mat-error>
+        <mat-error *ngIf="total_marks.errors?.['pattern']">Total marks must not include a decimal point
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill">
+        <mat-label>Duration (in minutes)</mat-label>
+        <input matInput type="number" ngModel #test_duration="ngModel" name="test_duration" min="1" max="180"
+          pattern="\d*" required />
+        <mat-error *ngIf="test_duration.errors?.['required']">Required</mat-error>
+        <mat-error *ngIf="test_duration.errors?.['min']">Duration cannot be less than 1 minute</mat-error>
+        <mat-error *ngIf="test_duration.errors?.['max']">Duration cannot be more than 180 minutes</mat-error>
+        <mat-error *ngIf="test_duration.errors?.['pattern']">Duration must not include a decimal point
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill">
+        <mat-label>Test pin</mat-label>
+        <input matInput type="number" ngModel pattern="\d*" #test_pin="ngModel" name="test_pin" required />
+        <mat-error *ngIf="test_pin.errors?.['required']">Required</mat-error>
+        <mat-error *ngIf="test_pin.errors?.['pattern']">Test pin must not include a decimal point
+        </mat-error>
+      </mat-form-field>
+
+      <div class="checkbox-container">
+        <mat-label>Allow multiple attempts?</mat-label>
+        <mat-checkbox name="allow_multiple_attempts" class="checkbox-margin"
+          [(ngModel)]="allowMultipleAttempts"></mat-checkbox>
+      </div>
+      <div class="stepper_button">
+        <button mat-stroked-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="test_questions.control" label="Add questions">
+    <form #test_questions="ngForm">
+      <mat-card class="test_questions" *ngFor="let q of questions; let i = index">
+        <button mat-icon-button class="remove" (click)="removeQuestion(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" ngModel
+          [(ngModel)]="q.titledatatype" name="titledatatype">
+          <mat-radio-button class="example-radio-button" *ngFor="let data of datatypes" [value]="data">
+            {{data}}
+          </mat-radio-button>
+        </mat-radio-group> -->
+        
+        <mat-slide-toggle [(ngModel)]="q.titledatatype" name="titledatatype" (click)="resetValue(i,'title')"></mat-slide-toggle>
+
+        
+        <mat-form-field appearance="fill" *ngIf="!q.titledatatype">
+          <mat-label>Question {{ i + 1 }}</mat-label>
+          <input matInput type="text" ngModel [(ngModel)]="q.title" #question="ngModel" name="{{ i + 1 }}_question"
+            required />
+          <mat-error *ngIf="question.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="q.titledatatype">
+          <button type="button" mat-icon-button (click)="f_input.click()"><mat-icon class="attach">attach_file</mat-icon></button>
+
+          <mat-label>Question {{ i + 1 }}</mat-label>
+          <input type="file" hidden #f_input (change)="handleFileInputChange($event, i ,'title')" accept="image/*"  />
+          <span class="file-name">{{selectedFile[0]?.name}}</span>
+
+          <input matInput type="textfield" hidden ngModel [(ngModel)]="q.title" #question="ngModel"
+            name="{{ i + 1 }}_question" required />
+
+          <mat-error>this field is required</mat-error>
+          <mat-error *ngIf="question.errors?.['required']">Required</mat-error>
+
+        </mat-form-field>
+
+        <br />
+        <!-- option 1 for string -->
+        <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" ngModel
+          [(ngModel)]="q.adatatype" name="adatatype">
+          <mat-radio-button class="example-radio-button" *ngFor="let data of datatypes" [value]="data">
+            {{data}}
+          </mat-radio-button>
+        </mat-radio-group> -->
+
+        <mat-slide-toggle [(ngModel)]="q.adatatype" name="adatatype" (click)="resetValue(i,'a')"></mat-slide-toggle>
+
+
+        <mat-form-field class="option_1_3_field" appearance="fill" *ngIf="!q.adatatype">
+          <mat-label>Option 1</mat-label>
+          <input matInput type="text" ngModel [(ngModel)]="q.a" #a="ngModel" name="{{ i + 1 }}_a" required/>
+          <mat-error *ngIf="a.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+
+        <!-- option 1 for image -->
+        <mat-form-field class="option_1_3_field" appearance="fill" *ngIf="q.adatatype">
+          <mat-label>Option 1</mat-label>
+          <button type="button"  mat-icon-button (click)="f_input.click()"><mat-icon class="attach">attach_file</mat-icon></button>
+          <input type="file" hidden #f_input (change)="handleFileInputChange($event, i ,'a')" accept="image/*" />
+          <span class="file-name">{{selectedFile[1]?.name}}</span>
+          <input matInput type="textfield" hidden ngModel [(ngModel)]="q.a" #a="ngModel" name="{{ i + 1 }}_a"
+            required />
+          <mat-error *ngIf="a.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+
+        <!-- option 2 for string -->
+        <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" ngModel
+          [(ngModel)]="q.bdatatype" name="bdatatype">
+          <mat-radio-button class="example-radio-button" *ngFor="let data of datatypes" [value]="data">
+            {{data}}
+          </mat-radio-button>
+        </mat-radio-group> -->
+        <mat-slide-toggle [(ngModel)]="q.bdatatype" name="bdatatype" (click)="resetValue(i,'b')"></mat-slide-toggle>
+
+        <mat-form-field appearance="fill" *ngIf="!q.bdatatype">
+          <mat-label>Option 2</mat-label>
+          <input matInput type="text" ngModel [(ngModel)]="q.b" #b="ngModel" name="{{ i + 1 }}_b" required />
+          <mat-error *ngIf="b.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="option_1_3_field" appearance="fill" *ngIf="q.bdatatype">
+          <mat-label>Option 2</mat-label>
+          <button type="button" mat-icon-button (click)="f_input.click()"><mat-icon class="attach">attach_file</mat-icon></button>
+          <input type="file" hidden #f_input (change)="handleFileInputChange($event, i ,'b')" accept="image/*" />
+          <span class="file-name">{{selectedFile[2]?.name}}</span>
+          <input matInput type="textfield" hidden ngModel [(ngModel)]="q.b" #a="ngModel" name="{{ i + 1 }}_b"
+            required />
+          <mat-error *ngIf="a.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+        <br/>
+        <!-- option 3 for string -->
+        <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" ngModel
+          [(ngModel)]="q.cdatatype" name="cdatatype">
+          <mat-radio-button class="example-radio-button" *ngFor="let data of datatypes" [value]="data">
+            {{data}}
+          </mat-radio-button>
+        </mat-radio-group> -->
+       
+        
+        <mat-slide-toggle [(ngModel)]="q.cdatatype" name="cdatatype" (click)="resetValue(i,'c')"></mat-slide-toggle>
+        <mat-form-field class="option_1_3_field" appearance="fill" *ngIf="!q.cdatatype">
+          
+          <mat-label>Option 3</mat-label>
+          <input matInput type="text" ngModel [(ngModel)]="q.c" #c="ngModel" name="{{ i + 1 }}_c" required />
+          <mat-error *ngIf="c.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="option_1_3_field" appearance="fill" *ngIf="q.cdatatype">
+          <mat-label>Option 3</mat-label>
+          <button type="button" mat-icon-button (click)="f_input.click()"><mat-icon class="attach">attach_file</mat-icon></button>
+          <input type="file" hidden #f_input (change)="handleFileInputChange($event, i ,'c')" accept="image/*" />
+          <span class="file-name">{{selectedFile[3]?.name}}</span>
+          <input matInput type="textfield" hidden ngModel [(ngModel)]="q.c" #a="ngModel" name="{{ i + 1 }}_c"
+            required />
+          <mat-error *ngIf="a.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+        <!-- option 4 for string -->
+        <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" ngModel
+          [(ngModel)]="q.ddatatype" name="ddatatype">
+          <mat-radio-button class="example-radio-button" *ngFor="let data of datatypes" [value]="data">
+            {{data}}
+          </mat-radio-button>
+        </mat-radio-group> -->
+        <mat-slide-toggle [(ngModel)]="q.ddatatype" name="ddatatype" (click)="resetValue(i,'d')" ></mat-slide-toggle>
+
+        <mat-form-field appearance="fill" *ngIf="!q.ddatatype">
+          <mat-label>Option 4</mat-label>
+          <input matInput type="text" ngModel [(ngModel)]="q.d" #d="ngModel" name="{{ i + 1 }}_d" required />
+          <mat-error *ngIf="d.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="option_1_3_field" appearance="fill" *ngIf="q.ddatatype">
+          <mat-label>Option 4</mat-label>
+          <button type="button" mat-icon-button (click)="f_input.click()"><mat-icon class="attach">attach_file</mat-icon></button>
+          <input type="file" hidden #f_input (change)="handleFileInputChange($event, i ,'d')" accept="image/*" />
+          <span class="file-name">{{selectedFile[4]?.name}}</span>
+          <input matInput type="textfield" hidden ngModel [(ngModel)]="q.d" #a="ngModel" name="{{ i + 1 }}_d"
+            required />
+          <mat-error *ngIf="a.errors?.['required']">Required</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>Correct option number</mat-label>
+          <input matInput type="number" ngModel [(ngModel)]="q.correct" #correct="ngModel" name="{{ i + 1 }}_correct"
+            required min="1" max="4" pattern="\d*" />
+          <mat-error *ngIf="correct.errors?.['required']">Required</mat-error>
+          <mat-error *ngIf="correct.errors?.['min'] || correct.errors?.['max']">Option out of range</mat-error>
+          <mat-error *ngIf="correct.errors?.['pattern']">Correct option must not include a decimal point
+          </mat-error>
+        </mat-form-field>
+      </mat-card>
+      <br />
+      <div class="add">
+        <button type="button" (click)="addQuestion()" mat-stroked-button>
+          Add another question
+        </button>
+      </div>
+      <div class="stepper_button">
+        <button class="back" mat-stroked-button matStepperPrevious>Back</button>
+        <button mat-stroked-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Submit">
+    <form #test="ngForm" class="test" (ngSubmit)="onCreateTest(test_details)">
+      <p>Do you want to create the test?</p>
+      <div class="stepper_button">
+        <button class="back" mat-stroked-button matStepperPrevious>Back</button>
+        <button type="submit" mat-stroked-button>Create</button>
+      </div>
+      <mat-spinner *ngIf="showSpinner" [diameter]="30"></mat-spinner>
+    </form>
+  </mat-step>
+</mat-stepper>
